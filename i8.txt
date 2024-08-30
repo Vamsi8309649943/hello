@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Ticketing Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f8ff; /* Light blue background for the page */
+            margin: 0;
+        }
+
+        .chat-container {
+            width: 300px;
+            height: 400px;
+            border: 1px solid #b3c6ff; /* Light blue border */
+            border-radius: 10px;
+            background-color: #ffebee; /* Light pink background for the container */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-box {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            border-bottom: 1px solid #b3c6ff; /* Light blue border for messages area */
+            background-color: #ffebee; /* Light pink background for messages */
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #b3c6ff; /* Light blue border for input area */
+            background-color: #f3e5f5; /* Light pinkish-blue background for input area */
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 5px;
+            border: 1px solid #b3c6ff; /* Light blue border for input field */
+            border-radius: 5px;
+            background-color: #ffffff; /* White background for input field */
+        }
+
+        .chat-input button {
+            padding: 5px 10px;
+            margin-left: 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #d1c4e9; /* Light purple for button */
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .chat-input button:hover {
+            background-color: #b39ddb; /* Slightly darker purple on hover */
+        }
+
+        .user {
+            text-align: right;
+            margin: 5px 0;
+            color: #3f51b5; /* Darker blue for user messages */
+        }
+
+        .bot {
+            text-align: left;
+            margin: 5px 0;
+            color: #d32f2f; /* Darker red for bot messages */
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-box" id="chat-box">
+            <div class="chat-messages" id="chat-messages"></div>
+            <div class="chat-input">
+                <input type="text" id="user-input" placeholder="Type your message...">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Basic chatbot responses
+        const responses = {
+            "hello": "Hi there! How can I help you with ticketing today?",
+            "help": "You can ask me about ticket availability, booking procedures, and more!",
+            "book": "To book a ticket, please provide the following details: event, date, and number of tickets.",
+            "thanks": "You're welcome! If you need anything else, just let me know.",
+            "default": "I'm sorry, I didn't understand that. Can you please rephrase?"
+        };
+
+        function sendMessage() {
+            const inputElement = document.getElementById("user-input");
+            const message = inputElement.value.trim().toLowerCase();
+            
+            if (message) {
+                // Add user message to chat
+                addMessage('user', message);
+                
+                // Get response
+                const response = responses[message] || responses['default'];
+                
+                // Add chatbot response to chat
+                setTimeout(() => addMessage('bot', response), 500);
+                
+                // Clear input
+                inputElement.value = '';
+                inputElement.focus();
+            }
+        }
+
+        function addMessage(sender, text) {
+            const chatMessages = document.getElementById("chat-messages");
+            const messageElement = document.createElement("div");
+            messageElement.className = sender;
+            messageElement.textContent = text;
+            chatMessages.appendChild(messageElement);
+            chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to the bottom
+        }
+
+        // Example messages on load
+        addMessage('bot', 'Welcome! How can I assist you with ticketing today?');
+    </script>
+</body>
+</html>
